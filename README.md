@@ -1,0 +1,2 @@
+# MyString
+CPP String
