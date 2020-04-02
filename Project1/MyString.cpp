@@ -36,15 +36,6 @@ MyString::MyString(const MyString& string) {
 		this->data = new char[string.length() + 1];
 		strcpy_s(this->data, string.length() + 1, string.value());
 	}
-	else {
-
-		// Free current data if needed
-		if (!this->isEmpty()) {
-			delete this->data;
-		}
-
-		this->data = NULL;
-	}
 }
 
 // Deletes the current data if necessary
