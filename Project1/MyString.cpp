@@ -12,7 +12,7 @@ MyString::MyString(const char* string)
 {
 	this->data = NULL;
 
-	if (string && strlen(string) > 0) {
+	if (!string.isEmpty()) {
 		// Allocate and initialize
 		this->data = new char[strlen(string) + 1];
 
