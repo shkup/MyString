@@ -11,6 +11,8 @@ private:
 
 	void safeDeleteCurrentData();
 
+	MyString& switchToOtherString(const MyString& other);
+
 public:
 	// Constructors
 

@@ -12,7 +12,7 @@ MyString::MyString(const char* string)
 {
 	this->data = NULL;
 
-	if (!string.isEmpty()) {
+	if (string) {
 		// Allocate and initialize
 		this->data = new char[strlen(string) + 1];
 
@@ -47,6 +47,16 @@ void MyString::safeDeleteCurrentData()
 	}
 }
 
+MyString& MyString::switchToOtherString(const MyString& other)
+{
+	// Delete the current data if necessary
+	this->safeDeleteCurrentData();
+
+	// Switch instances
+	*this = other;
+	return *this;
+}
+
 // Returns the amount of characters in the string 
 size_t MyString::length() const {
 	// 0 for empty string,otherwise measure the length
@@ -60,9 +70,7 @@ MyString& MyString::append(const MyString& other)
 	if (other.isEmpty()) return *this;
 
 	if (this->isEmpty()) {
-		// We don't have a value. Just assign this instance to point at the other one and return it.
-		*this = other;
-		return *this;
+		return this->switchToOtherString(other);
 	}
 	else {
 
@@ -114,17 +122,7 @@ MyString& MyString::operator=(const char* other)
 // Assignment operator
 MyString& MyString::operator=(const MyString& other)
 {
-	// Delete the current data if necessary
-	this->safeDeleteCurrentData();
-
-	// Allocate and copy if the other string has data in it
-	if (!other.isEmpty()) {
-		int otherLength = other.length() + 1;
-		this->data = new char[otherLength];
-		strcpy_s(this->data, otherLength, other.value());
-	}
-
-	return *this;
+	return this->switchToOtherString(other);
 }
 
 // Comparator. Smaller than
