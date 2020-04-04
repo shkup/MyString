@@ -67,10 +67,10 @@ size_t MyString::length() const {
 MyString& MyString::append(const MyString& other)
 {
 	// The other one is empty. Nothing to copy.
-	if (other.isEmpty()) return *this;
+	if (other == NULL || other.isEmpty()) return *this;
 
 	if (this->isEmpty()) {
-		return this->switchToOtherString(other);
+		*this = other;
 	}
 	else {
 
@@ -93,9 +93,9 @@ MyString& MyString::append(const MyString& other)
 
 		// Set the new unified data
 		this->data = temp;
-
-		return *this;
 	}
+
+	return *this;
 }
 
 // Indication if the string is empty or not
@@ -105,15 +105,15 @@ bool MyString::isEmpty() const
 }
 
 //Assignment of data
-MyString& MyString::operator=(const char* other)
+MyString& MyString::operator=(const char* string)
 {
 	// Delete the current data if necessary
 	this->safeDeleteCurrentData();
 
 	// Allocate memory and copy if there is data in this given string
-	if (other && strlen(other) > 0) {
-		this->data = new char[strlen(other) + 1];
-		strcpy_s(this->data, strlen(other) + 1, other);
+	if (string && ! strlen(string) > 0) {
+		this->data = new char[strlen(string) + 1];
+		strcpy_s(this->data, strlen(string) + 1, string);
 	}
 
 	return *this;
@@ -122,7 +122,17 @@ MyString& MyString::operator=(const char* other)
 // Assignment operator
 MyString& MyString::operator=(const MyString& other)
 {
-	return this->switchToOtherString(other);
+	this->safeDeleteCurrentData();
+
+	if (other != NULL && !other.isEmpty())
+	{
+		const char* otherData = other.value();
+
+		this->data = new char[strlen(otherData) + 1];
+		strcpy_s(this->data, strlen(otherData) + 1, otherData);
+	}
+
+	return *this;
 }
 
 // Comparator. Smaller than
@@ -142,7 +152,7 @@ bool MyString::operator<(const MyString& other) const
 bool MyString::operator==(const MyString& other) const
 {
 	// If one is empty and the other one is not they are not equal!
-	if ((!this->isEmpty() && !other.isEmpty()) || (this->isEmpty() && !other.isEmpty())) return false;
+	if ((!this->isEmpty() && other.isEmpty()) || (this->isEmpty() && !other.isEmpty())) return false;
 
 	// We both have values. No NULL risk. compare them.
 	return strcmp(this->data, other.value()) == 0;

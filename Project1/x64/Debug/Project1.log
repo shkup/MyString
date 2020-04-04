@@ -7,5 +7,6 @@ F:\Git\MyString\Project1\Main.cpp(42,9): warning C4477: 'printf' : format string
 F:\Git\MyString\Project1\Main.cpp(42,9): message : consider using '%zd' in the format string
   MyString.cpp
 F:\Git\MyString\Project1\MyString.cpp(79,58): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+F:\Git\MyString\Project1\MyString.cpp(114,36): warning C4804: '>': unsafe use of type 'bool' in operation
   Generating Code...
   Project1.vcxproj -> F:\Git\MyString\x64\Debug\CPPString.exe
